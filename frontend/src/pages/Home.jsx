@@ -25,7 +25,7 @@ const Home = () => {
         <h1 className="text-4xl font-bold text-gray-800 mb-4">
           Find Your Next <span className="text-primary-600">Gig</span>
         </h1>
-        <p className="text-gray-600 text-lg mb-8">
+        <p className="text-body text-lg mb-8">
           Browse through hundreds of freelance opportunities or post your own job
         </p>
 
@@ -33,7 +33,7 @@ const Home = () => {
         <form onSubmit={handleSearch} className="max-w-2xl mx-auto">
           <div className="flex gap-2">
             <div className="relative flex-1">
-              <FiSearch className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400" />
+              <FiSearch className="absolute left-4 top-1/2 -translate-y-1/2 icon-muted" />
               <input
                 type="text"
                 value={searchTerm}
@@ -51,16 +51,14 @@ const Home = () => {
 
       {/* Gigs Grid */}
       <div className="mb-6">
-        <div className="flex items-center space-x-2 mb-4">
-          <FiBriefcase className="text-primary-600" />
-          <h2 className="text-xl font-semibold text-gray-800">
-            Open Gigs ({gigs.length})
-          </h2>
+        <div className="flex-gap-2 mb-4">
+          <FiBriefcase className="icon-primary" />
+          <h2 className="section-title">Open Gigs ({gigs.length})</h2>
         </div>
 
         {isLoading ? (
-          <div className="flex items-center justify-center py-20">
-            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary-600"></div>
+          <div className="loading-container">
+            <div className="spinner"></div>
           </div>
         ) : gigs.length > 0 ? (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -69,9 +67,9 @@ const Home = () => {
             ))}
           </div>
         ) : (
-          <div className="text-center py-20">
-            <FiBriefcase className="text-6xl text-gray-300 mx-auto mb-4" />
-            <h3 className="text-xl font-semibold text-gray-600 mb-2">No gigs found</h3>
+          <div className="empty-state">
+            <FiBriefcase className="empty-icon" />
+            <h3 className="empty-title">No gigs found</h3>
             <p className="text-gray-500">
               {searchTerm ? 'Try a different search term' : 'Be the first to post a gig!'}
             </p>

@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { createGig } from '../store/slices/gigsSlice';
 import toast from 'react-hot-toast';
-import { FiFileText, FiDollarSign, FiAlignLeft } from 'react-icons/fi';
+import { FiFileText, FiAlignLeft } from 'react-icons/fi';
 
 const CreateGig = () => {
   const [formData, setFormData] = useState({
@@ -42,11 +42,11 @@ const CreateGig = () => {
   return (
     <div className="max-w-2xl mx-auto">
       <div className="card">
-        <h1 className="text-2xl font-bold text-gray-800 mb-6">Post a New Gig</h1>
+        <h1 className="page-title mb-6">Post a New Gig</h1>
 
         <form onSubmit={handleSubmit} className="space-y-6">
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">
+            <label className="form-label">
               <FiFileText className="inline mr-1" />
               Job Title
             </label>
@@ -59,30 +59,27 @@ const CreateGig = () => {
               maxLength={100}
               required
             />
-            <p className="text-xs text-gray-500 mt-1">{formData.title.length}/100 characters</p>
+            <p className="form-hint">{formData.title.length}/100 characters</p>
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">
+            <label className="form-label">
               <FiAlignLeft className="inline mr-1" />
               Job Description
             </label>
             <textarea
               value={formData.description}
               onChange={(e) => setFormData({ ...formData, description: e.target.value })}
-              className="input-field min-h-[200px]"
+              className="textarea-large"
               placeholder="Describe the job in detail. Include requirements, deliverables, and any specific skills needed..."
               maxLength={2000}
               required
             />
-            <p className="text-xs text-gray-500 mt-1">{formData.description.length}/2000 characters</p>
+            <p className="form-hint">{formData.description.length}/2000 characters</p>
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">
-              <FiDollarSign className="inline mr-1" />
-              Budget ($)
-            </label>
+            <label className="form-label">Budget (₹)</label>
             <input
               type="number"
               min="1"
@@ -105,7 +102,7 @@ const CreateGig = () => {
             <button
               type="submit"
               disabled={isLoading}
-              className="btn-primary flex-1 disabled:opacity-50 disabled:cursor-not-allowed"
+              className="btn-primary flex-1 btn-disabled"
             >
               {isLoading ? 'Posting...' : 'Post Gig'}
             </button>

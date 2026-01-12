@@ -59,13 +59,11 @@ const Register = () => {
   return (
     <div className="max-w-md mx-auto">
       <div className="card">
-        <h1 className="text-2xl font-bold text-center text-gray-800 mb-6">
-          Create Account
-        </h1>
+        <h1 className="page-title text-center mb-6">Create Account</h1>
 
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">
+            <label className="form-label">
               <FiUser className="inline mr-1" />
               Full Name
             </label>
@@ -80,7 +78,7 @@ const Register = () => {
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">
+            <label className="form-label">
               <FiMail className="inline mr-1" />
               Email
             </label>
@@ -95,7 +93,7 @@ const Register = () => {
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">
+            <label className="form-label">
               <FiLock className="inline mr-1" />
               Password
             </label>
@@ -110,7 +108,7 @@ const Register = () => {
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">
+            <label className="form-label">
               <FiLock className="inline mr-1" />
               Confirm Password
             </label>
@@ -127,13 +125,13 @@ const Register = () => {
           <button
             type="submit"
             disabled={isLoading}
-            className="btn-primary w-full disabled:opacity-50 disabled:cursor-not-allowed"
+            className="btn-primary w-full btn-disabled"
           >
             {isLoading ? 'Creating Account...' : 'Sign Up'}
           </button>
         </form>
 
-        <p className="text-center mt-6 text-gray-600">
+        <p className="text-center mt-6 text-body">
           Already have an account?{' '}
           <Link to="/login" className="text-primary-600 hover:text-primary-700 font-medium">
             Sign In

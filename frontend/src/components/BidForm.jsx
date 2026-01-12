@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { createBid } from '../store/slices/bidsSlice';
 import toast from 'react-hot-toast';
-import { FiDollarSign, FiMessageSquare } from 'react-icons/fi';
+import { FiMessageSquare } from 'react-icons/fi';
 
 const BidForm = ({ gigId, onSuccess }) => {
   const [formData, setFormData] = useState({
@@ -41,14 +41,11 @@ const BidForm = ({ gigId, onSuccess }) => {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="card border border-primary-200 bg-primary-50">
-      <h3 className="text-lg font-semibold text-gray-800 mb-4">Submit Your Bid</h3>
+    <form onSubmit={handleSubmit} className="card-primary">
+      <h3 className="card-title mb-4">Submit Your Bid</h3>
       
-      <div className="mb-4">
-        <label className="block text-sm font-medium text-gray-700 mb-1">
-          <FiDollarSign className="inline mr-1" />
-          Your Price ($)
-        </label>
+      <div className="form-group">
+        <label className="form-label">Your Price (₹)</label>
         <input
           type="number"
           min="1"
@@ -60,15 +57,15 @@ const BidForm = ({ gigId, onSuccess }) => {
         />
       </div>
 
-      <div className="mb-4">
-        <label className="block text-sm font-medium text-gray-700 mb-1">
+      <div className="form-group">
+        <label className="form-label">
           <FiMessageSquare className="inline mr-1" />
           Your Proposal
         </label>
         <textarea
           value={formData.message}
           onChange={(e) => setFormData({ ...formData, message: e.target.value })}
-          className="input-field min-h-[120px]"
+          className="textarea-field"
           placeholder="Describe why you're the best fit for this job..."
           required
         />
@@ -77,7 +74,7 @@ const BidForm = ({ gigId, onSuccess }) => {
       <button
         type="submit"
         disabled={isSubmitting}
-        className="btn-primary w-full disabled:opacity-50 disabled:cursor-not-allowed"
+        className="btn-primary w-full btn-disabled"
       >
         {isSubmitting ? 'Submitting...' : 'Submit Bid'}
       </button>

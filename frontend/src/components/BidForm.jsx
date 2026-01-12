@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { createBid } from '../store/slices/bidsSlice';
 import toast from 'react-hot-toast';
-import { FiMessageSquare } from 'react-icons/fi';
+import { FiMessageSquare, FiSend, FiZap } from 'react-icons/fi';
 
 const BidForm = ({ gigId, onSuccess }) => {
   const [formData, setFormData] = useState({
@@ -41,44 +41,69 @@ const BidForm = ({ gigId, onSuccess }) => {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="card-primary">
-      <h3 className="card-title mb-4">Submit Your Bid</h3>
-      
-      <div className="form-group">
-        <label className="form-label">Your Price (₹)</label>
-        <input
-          type="number"
-          min="1"
-          value={formData.price}
-          onChange={(e) => setFormData({ ...formData, price: e.target.value })}
-          className="input-field"
-          placeholder="Enter your bid amount"
-          required
-        />
+    <div className="card border-2 border-primary-100">
+      {/* Header */}
+      <div className="flex items-center gap-3 mb-6 pb-4 border-b border-gray-100">
+        <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-primary-500 to-accent-500 flex-center">
+          <FiZap className="text-white" />
+        </div>
+        <div>
+          <h3 className="font-bold text-gray-900">Submit Your Bid</h3>
+          <p className="text-xs text-gray-500">Stand out with a competitive offer</p>
+        </div>
       </div>
 
-      <div className="form-group">
-        <label className="form-label">
-          <FiMessageSquare className="inline mr-1" />
-          Your Proposal
-        </label>
-        <textarea
-          value={formData.message}
-          onChange={(e) => setFormData({ ...formData, message: e.target.value })}
-          className="textarea-field"
-          placeholder="Describe why you're the best fit for this job..."
-          required
-        />
-      </div>
+      <form onSubmit={handleSubmit} className="space-y-5">
+        <div>
+          <label className="form-label">Your Bid Amount</label>
+          <div className="relative">
+            <span className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-500 font-medium">₹</span>
+            <input
+              type="number"
+              min="1"
+              value={formData.price}
+              onChange={(e) => setFormData({ ...formData, price: e.target.value })}
+              className="input-field pl-9"
+              placeholder="5,000"
+              required
+            />
+          </div>
+        </div>
 
-      <button
-        type="submit"
-        disabled={isSubmitting}
-        className="btn-primary w-full btn-disabled"
-      >
-        {isSubmitting ? 'Submitting...' : 'Submit Bid'}
-      </button>
-    </form>
+        <div>
+          <label className="form-label flex items-center gap-2">
+            <FiMessageSquare className="text-gray-400" />
+            Your Proposal
+          </label>
+          <textarea
+            value={formData.message}
+            onChange={(e) => setFormData({ ...formData, message: e.target.value })}
+            className="input-field min-h-[120px] resize-none"
+            placeholder="Describe why you're the best fit for this job..."
+            required
+          />
+          <p className="text-xs text-gray-400 mt-2">Tip: Highlight your relevant experience and skills</p>
+        </div>
+
+        <button
+          type="submit"
+          disabled={isSubmitting}
+          className="btn-primary w-full flex-center gap-2 py-3"
+        >
+          {isSubmitting ? (
+            <>
+              <div className="spinner w-5 h-5" />
+              <span>Submitting...</span>
+            </>
+          ) : (
+            <>
+              <FiSend />
+              <span>Submit Bid</span>
+            </>
+          )}
+        </button>
+      </form>
+    </div>
   );
 };
 

@@ -8,7 +8,7 @@ export const initializeSocket = (userId, dispatch) => {
     socket.disconnect();
   }
 
-  socket = io('http://localhost:5000', {
+  socket = io('https://gigflow-4cj4.onrender.com', {
     withCredentials: true,
   });
 

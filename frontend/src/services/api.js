@@ -10,11 +10,41 @@ const api = axios.create({
   },
 });
 
+// Add token to every request from localStorage
+api.interceptors.request.use(
+  (config) => {
+    const token = localStorage.getItem('token');
+    if (token) {
+      config.headers.Authorization = `Bearer ${token}`;
+    }
+    return config;
+  },
+  (error) => {
+    return Promise.reject(error);
+  }
+);
+
+// Handle 401 errors (token expired or invalid)
+api.interceptors.response.use(
+  (response) => response,
+  (error) => {
+    if (error.response?.status === 401) {
+      localStorage.removeItem('token');
+      localStorage.removeItem('user');
+    }
+    return Promise.reject(error);
+  }
+);
+
 // Auth API
 export const authAPI = {
   register: (data) => api.post('/auth/register', data),
   login: (data) => api.post('/auth/login', data),
-  logout: () => api.post('/auth/logout'),
+  logout: () => {
+    localStorage.removeItem('token');
+    localStorage.removeItem('user');
+    return api.post('/auth/logout');
+  },
   getMe: () => api.get('/auth/me'),
 };
 

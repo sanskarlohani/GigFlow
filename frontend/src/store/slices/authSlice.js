@@ -1,10 +1,14 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { authAPI } from '../../services/api';
 
+// Load user from localStorage
+const storedUser = localStorage.getItem('user');
+const storedToken = localStorage.getItem('token');
+
 const initialState = {
-  user: null,
+  user: storedUser ? JSON.parse(storedUser) : null,
   isLoading: false,
-  isAuthenticated: false,
+  isAuthenticated: !!storedToken,
   error: null,
 };
 
@@ -13,6 +17,11 @@ export const register = createAsyncThunk(
   async (userData, { rejectWithValue }) => {
     try {
       const response = await authAPI.register(userData);
+      // Store token and user in localStorage
+      if (response.data.token) {
+        localStorage.setItem('token', response.data.token);
+        localStorage.setItem('user', JSON.stringify(response.data.user));
+      }
       return response.data;
     } catch (error) {
       return rejectWithValue(error.response?.data?.message || 'Registration failed');
@@ -25,6 +34,11 @@ export const login = createAsyncThunk(
   async (credentials, { rejectWithValue }) => {
     try {
       const response = await authAPI.login(credentials);
+      // Store token and user in localStorage
+      if (response.data.token) {
+        localStorage.setItem('token', response.data.token);
+        localStorage.setItem('user', JSON.stringify(response.data.user));
+      }
       return response.data;
     } catch (error) {
       return rejectWithValue(error.response?.data?.message || 'Login failed');
@@ -39,7 +53,8 @@ export const logout = createAsyncThunk(
       await authAPI.logout();
       return null;
     } catch (error) {
-      return rejectWithValue(error.response?.data?.message || 'Logout failed');
+      // Even if logout fails on server, clear local storage
+      return null;
     }
   }
 );
@@ -49,8 +64,15 @@ export const getMe = createAsyncThunk(
   async (_, { rejectWithValue }) => {
     try {
       const response = await authAPI.getMe();
+      // Update stored user
+      if (response.data.user) {
+        localStorage.setItem('user', JSON.stringify(response.data.user));
+      }
       return response.data;
     } catch (error) {
+      // Clear storage on auth failure
+      localStorage.removeItem('token');
+      localStorage.removeItem('user');
       return rejectWithValue(error.response?.data?.message || 'Failed to get user');
     }
   }
@@ -98,6 +120,8 @@ const authSlice = createSlice({
       .addCase(logout.fulfilled, (state) => {
         state.user = null;
         state.isAuthenticated = false;
+        localStorage.removeItem('token');
+        localStorage.removeItem('user');
       })
       // Get Me
       .addCase(getMe.pending, (state) => {

@@ -30,7 +30,7 @@ const Home = () => {
 
         <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary-100 text-primary-700 text-sm font-medium mb-6">
           <FiZap className="text-primary-500" />
-          <span>Find your perfect freelance opportunity</span>
+          <span>Find your perfect freelance Project</span>
         </div>
 
         <h1 className="text-5xl md:text-6xl font-extrabold text-gray-900 mb-6 tracking-tight">

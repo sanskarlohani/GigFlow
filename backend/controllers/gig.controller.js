@@ -14,9 +14,12 @@ export const getGigs = async (req, res) => {
       query.status = status;
     }
 
-    // Search by title
+    // Search by title and description
     if (search) {
-      query.title = { $regex: search, $options: 'i' };
+      query.$or = [
+        { title: { $regex: search, $options: 'i' } },
+        { description: { $regex: search, $options: 'i' } },
+      ];
     }
 
     const gigs = await Gig.find(query)
